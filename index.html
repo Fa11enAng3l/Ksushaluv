@@ -152,31 +152,48 @@
         <a href="photos.html" class="next-btn">Твои красивые фоточкии❤️ →</a>
     </div>
 
-    <script>
-        // Логика музыки
-        const music = document.getElementById('bgMusic');
-        const btn = document.getElementById('musicControl');
-        btn.onclick = () => {
-            if (music.paused) { music.play(); btn.textContent = '🎶'; }
-            else { music.pause(); btn.textContent = '🎵'; }
-        };
+<script>
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicControl');
 
-        // Лепестки
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            const size = Math.random() * 12 + 8 + 'px';
-            petal.style.width = size;
-            petal.style.height = size;
-            petal.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 4 + 4;
-            petal.style.animationDuration = duration + 's';
-            const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
-            petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            document.body.appendChild(petal);
-            setTimeout(() => { petal.remove(); }, duration * 1000);
+    // Восстановление позиции при загрузке
+    window.addEventListener('load', () => {
+        const savedTime = localStorage.getItem('musicTime');
+        if (savedTime) { music.currentTime = parseFloat(savedTime); }
+    });
+
+    musicBtn.onclick = () => {
+        if (music.paused) {
+            music.play();
+            musicBtn.textContent = '🎶';
+        } else {
+            music.pause();
+            musicBtn.textContent = '🎵';
         }
-        setInterval(createPetal, 150);
-    </script>
+    };
+
+    // Сохраняем время перед уходом на страницу с фото
+    document.querySelector('.next-btn').onclick = () => {
+        localStorage.setItem('musicTime', music.currentTime);
+        localStorage.setItem('wasPlaying', !music.paused);
+    };
+
+    // --- ЛЕПЕСТКИ ---
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        const size = Math.random() * 12 + 8 + 'px';
+        petal.style.width = size; petal.style.height = size;
+        petal.style.left = Math.random() * 100 + 'vw';
+        const duration = Math.random() * 4 + 4;
+        petal.style.animationDuration = duration + 's';
+        const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
+        petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), duration * 1000);
+    }
+    setInterval(createPetal, 150);
+</script>
 </body>
 </html>
+
