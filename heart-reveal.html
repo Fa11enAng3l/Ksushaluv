@@ -16,7 +16,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            overflow: hidden; /* Убираем лишние полосы прокрутки */
+            overflow: hidden;
         }
 
         .container {
@@ -31,10 +31,8 @@
             font-size: 2rem;
             text-shadow: 0 0 10px #00ff00;
             margin-bottom: 30px;
-            color: #00ff00;
         }
 
-        /* КНОПКА "НАЖМИ НА МЕНЯ" */
         .reveal-btn {
             padding: 18px 35px;
             font-size: 1.3rem;
@@ -46,12 +44,6 @@
             box-shadow: 0 0 20px rgba(255, 0, 102, 0.6);
             transition: 0.3s;
             margin-bottom: 20px;
-        }
-
-        .reveal-btn:disabled {
-            background: #444;
-            box-shadow: none;
-            color: #aaa;
         }
 
         #heart-container {
@@ -67,13 +59,12 @@
             border-radius: 50%;
             opacity: 0;
             transform: scale(0);
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s;
+            transition: 0.6s;
         }
 
         #love-text {
             position: absolute;
-            top: 50%; 
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-size: 1.2rem;
             font-weight: bold;
@@ -81,41 +72,31 @@
             text-shadow: 0 0 10px #ff66a3;
             opacity: 0;
             transition: opacity 2s ease;
-            white-space: nowrap;
         }
 
-        /* ИСПРАВЛЕННАЯ ССЫЛКА НАЗАД (КАК НА СКРИНШОТЕ) */
         .back-link {
             display: inline-block;
             margin-top: 30px;
             padding: 12px 30px;
-            color: #00ff00 !important;
-            border: 2px solid #00ff00 !important;
+            color: #00ff00;
+            border: 2px solid #00ff00;
             border-radius: 50px;
-            text-decoration: none !important;
+            text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
         }
 
-        .back-link:hover {
-            background: rgba(0, 255, 0, 0.1);
-            box-shadow: 0 0 15px #00ff00;
-        }
-
-        /* ЛЕПЕСТКИ */
         .petal {
             position: fixed;
             top: -10%;
             background-color: #ff66a3;
             border-radius: 150% 0 150% 0;
             pointer-events: none;
-            z-index: 9999;
             animation: fall linear forwards;
         }
 
         @keyframes fall {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
     </style>
@@ -123,7 +104,7 @@
 <body>
 
     <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
+        <source src="music2.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container">
@@ -134,14 +115,20 @@
              <div id="love-text">Я ТЕБЯ ЛЮБЛЮ❤️</div>
         </div>
 
-        <a href="photos.html" class="back-link">← Назад к твоим фото!</a>
+        <a href="photos.html" class="back-link" id="finalBack">← Назад к твоим фото!</a>
     </div>
 
     <script>
-        function revealHeart() {
-            const music = document.getElementById('bgMusic');
-            music.play().catch(() => {});
+        const music = document.getElementById('bgMusic');
+        music.volume = 0.5;
 
+        // ВАЖНО: Мы НЕ загружаем сохраненное время, так как это новая песня
+        // Но нам нужно очистить статус "играет", чтобы песня запустилась по клику
+        
+        function revealHeart() {
+            // Запускаем НОВУЮ музыку при клике на кнопку
+            music.play().catch(() => {});
+            
             const container = document.getElementById('heart-container');
             const loveText = document.getElementById('love-text');
             const btn = document.querySelector('.reveal-btn');
@@ -161,25 +148,28 @@
                 dot.className = 'dot';
                 dot.style.left = p.x + 'px';
                 dot.style.top = p.y + 'px';
-                dot.style.width = '8px';
-                dot.style.height = '8px';
+                dot.style.width = '8px'; dot.style.height = '8px';
                 container.appendChild(dot);
-
-                setTimeout(() => {
-                    dot.style.opacity = '1';
-                    dot.style.transform = 'scale(1)';
+                setTimeout(() => { 
+                    dot.style.opacity = '1'; 
+                    dot.style.transform = 'scale(1)'; 
                 }, i * 50);
             });
-
             setTimeout(() => { loveText.style.opacity = '1'; }, points.length * 50);
         }
+
+        // Если она вернется назад, мы сбросим флаг "играет", 
+        // чтобы на странице фото музыка включилась корректно
+        document.getElementById('finalBack').onclick = () => {
+            localStorage.setItem('wasPlaying', 'true');
+            localStorage.setItem('musicTime', '0'); // Чтобы первая песня началась сначала при возврате
+        };
 
         function createPetal() {
             const petal = document.createElement('div');
             petal.className = 'petal';
             const size = Math.random() * 10 + 10 + 'px';
-            petal.style.width = size;
-            petal.style.height = size;
+            petal.style.width = size; petal.style.height = size;
             petal.style.left = Math.random() * 100 + 'vw';
             const duration = Math.random() * 3 + 4;
             petal.style.animationDuration = duration + 's';
