@@ -100,4 +100,83 @@
         }
 
         @keyframes fall {
-            0% { transform
+            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; }
+        }
+
+        /* --- КНОПКА МУЗЫКИ --- */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #e60073, #ff66a3);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 102, 0.5);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="musicControl" class="music-btn">🎵</button>
+
+    <div class="container">
+        <h1>Валентинка для моей любимой Ксю💚</h1>
+
+        <div class="photo-gallery">
+            <img src="pic/heart2.jpg" alt="Моя любовь">
+        </div>
+
+        <div class="love-letter">
+            <p>Я тебя очень сильно люблю, люблю твой голос, люблю твои глаза, люблю твои волосы, 
+                Я ЛЮБЛЮ ВСЮ ТЕБЯ. Я очень надеюсь, что встречусь с тобой этим летом❤️</p>
+            <p>Я очень рад что ты находишь время на то чтобы посидеть со мной в дискорде. 
+                 И разбираться в чем-то новом, что для тебя совершенно незнакомо❤️</p>
+            <div class="heart">❤</div>
+        </div>
+
+        <a href="photos.html" class="next-btn">Твои красивые фоточкии❤️ →</a>
+    </div>
+
+    <script>
+        // Логика музыки
+        const music = document.getElementById('bgMusic');
+        const btn = document.getElementById('musicControl');
+        btn.onclick = () => {
+            if (music.paused) { music.play(); btn.textContent = '🎶'; }
+            else { music.pause(); btn.textContent = '🎵'; }
+        };
+
+        // Лепестки
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 12 + 8 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 4 + 4;
+            petal.style.animationDuration = duration + 's';
+            const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
+            petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(petal);
+            setTimeout(() => { petal.remove(); }, duration * 1000);
+        }
+        setInterval(createPetal, 150);
+    </script>
+</body>
+</html>
