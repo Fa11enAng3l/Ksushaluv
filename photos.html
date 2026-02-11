@@ -15,7 +15,7 @@
             padding: 20px;
             margin: 0;
             min-height: 100vh;
-            overflow-x: hidden; /* Важно: убирает полосу прокрутки от лепестков */
+            overflow-x: hidden;
         }
 
         .container {
@@ -103,7 +103,6 @@
             color: #120021;
         }
 
-        /* --- СТИЛИ ЛЕПЕСТКОВ --- */
         .petal {
             position: fixed;
             top: -10%;
@@ -121,7 +120,6 @@
             100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; }
         }
 
-        /* --- СТИЛЬ КНОПКИ МУЗЫКИ --- */
         .music-btn {
             position: fixed;
             bottom: 20px;
@@ -187,7 +185,7 @@
             <p>Ну шикарная жинка💍</p>
         </div>
 
-        <a href="index.html" class="back-link">Обратно к тому как я тебя ЛЮБЛЮ❤️</a>
+        <a href="index.html" class="back-link">Обратно к твоим потрясающим фоточкам❤️</a>
         <br>
         <a href="heart-reveal.html" class="next-page-btn">
              ✨ Сюрприз! ✨
@@ -202,7 +200,7 @@
 
         musicBtn.addEventListener('click', () => {
             if (music.paused) {
-                music.play();
+                music.play().catch(e => console.log("Нужно взаимодействие пользователя"));
                 musicIcon.textContent = '🎶';
                 musicBtn.classList.add('playing');
             } else {
@@ -220,10 +218,15 @@
             petal.style.width = size;
             petal.style.height = size;
             petal.style.left = Math.random() * 100 + 'vw';
+            
+            // Добавляем случайный начальный поворот через JS
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
             const duration = Math.random() * 5 + 4;
             petal.style.animationDuration = duration + 's';
             const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
             petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
             document.body.appendChild(petal);
             setTimeout(() => { petal.remove(); }, duration * 1000);
         }
