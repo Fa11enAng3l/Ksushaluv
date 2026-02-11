@@ -68,57 +68,58 @@
             will-change: transform, opacity;
         }
 
-      #love-text {
-    position: absolute;
-    top: 40%;         /* Было 50%, уменьшаем число, чтобы поднять текст */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 0 10px #ff66a3;
-    opacity: 0;
-    transition: opacity 2s ease;
-    white-space: nowrap;
-    z-index: 10;
-}
-}
+        #love-text {
+            position: absolute;
+            top: 45%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px #ff66a3;
+            opacity: 0;
+            transition: opacity 2s ease;
+            white-space: nowrap;
+            z-index: 10;
         }
-        
-  .back-link {
-    display: inline-block;
-    margin-top: 50px;
-    padding: 10px 40px; /* Увеличили горизонтальные отступы для формы капсулы */
-    background-color: transparent;
-    color: #00ff00; /* Ярко-зеленый текст */
-    border: 1.5px solid #00ff00; /* Тонкая зеленая рамка */
-    border-radius: 50px; /* Скругление капсулой */
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 400; /* На скрине шрифт не очень жирный */
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 10;
-}
 
-.back-link:hover {
-    background-color: rgba(0, 255, 0, 0.1); /* Легкая подсветка при наведении */
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
-}
+        /* ИСПРАВЛЕННЫЙ СТИЛЬ КНОПКИ (КАК НА СКРИНШОТЕ) */
+        .back-link {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 12px 35px;
+            background-color: transparent;
+            color: #00ff00 !important; /* Принудительно зеленый цвет текста */
+            border: 2px solid #00ff00 !important; /* Принудительно зеленая рамка */
+            border-radius: 50px; /* Форма капсулы */
+            text-decoration: none !important; /* Убираем подчеркивание */
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .back-link:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
-<div class="container">
+    <div class="container">
         <h1>Тайное послание для тебя✨</h1>
         <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
 
-        <div id="heart-container" style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
+        <div id="heart-container">
              <div id="love-text">Я ТЕБЯ ЛЮБЛЮ❤️</div>
         </div>
 
         <br>
-        <a href="photos.html" class="back-link">Обратно к твоим потрясающим фото!❤️</a>
+        <a href="photos.html" class="back-link">Обратно к твоим потрясающим фоточкам!❤️</a>
     </div>
+
     <script>
         function revealHeart() {
             const container = document.getElementById('heart-container');
@@ -128,7 +129,6 @@
             btn.disabled = true;
             btn.textContent = "Смотри...❤️";
 
-            // Математическая формула сердца (более стабильная)
             const points = [];
             for (let t = 0; t <= Math.PI * 2; t += 0.2) {
                 const x = 16 * Math.pow(Math.sin(t), 3);
@@ -153,7 +153,6 @@
                 }, i * 50);
             });
 
-            // Показываем текст в конце
             setTimeout(() => {
                 loveText.style.opacity = '1';
                 btn.textContent = "Люблю тебя!💚";
@@ -162,9 +161,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
