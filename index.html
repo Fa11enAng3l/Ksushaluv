@@ -6,9 +6,9 @@
     <title>Валентинка для моей любимой Ксю💚</title>
     <style>
         body {
-            background-color: #120021; /* Глубокий темно-фиолетовый */
-            color: #00ff00;           /* Ярко-зеленый текст */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #120021;
+            color: #00ff00;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,7 +16,7 @@
             padding: 20px;
             line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden; /* Чтобы лепестки не создавали прокрутку */
+            overflow-x: hidden;
         }
 
         .container {
@@ -87,7 +87,6 @@
             100% { transform: scale(1); }
         }
 
-        /* --- СТИЛИ ЛЕПЕСТКОВ --- */
         .petal {
             position: fixed;
             top: -10%;
@@ -100,12 +99,11 @@
         }
 
         @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
-        /* --- КНОПКА МУЗЫКИ --- */
         .music-btn {
             position: fixed;
             bottom: 20px;
@@ -152,48 +150,46 @@
         <a href="photos.html" class="next-btn">Твои красивые фоточкии❤️ →</a>
     </div>
 
-<script>
-    const music = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicControl');
+    <script>
+        const music = document.getElementById('bgMusic');
+        const btn = document.getElementById('musicControl');
 
-    // Восстановление позиции при загрузке
-    window.addEventListener('load', () => {
-        const savedTime = localStorage.getItem('musicTime');
-        if (savedTime) { music.currentTime = parseFloat(savedTime); }
-    });
+        // ГРОМКОСТЬ 30%
+        music.volume = 0.5;
 
-    musicBtn.onclick = () => {
-        if (music.paused) {
-            music.play();
-            musicBtn.textContent = '🎶';
-        } else {
-            music.pause();
-            musicBtn.textContent = '🎵';
+        // Загрузка сохраненного времени
+        window.addEventListener('load', () => {
+            const savedTime = localStorage.getItem('musicTime');
+            const wasPlaying = localStorage.getItem('wasPlaying') === 'true';
+            if (savedTime) music.currentTime = parseFloat(savedTime);
+            if (wasPlaying) {
+                music.play().then(() => { btn.textContent = '🎶'; }).catch(() => {});
+            }
+        });
+
+        btn.onclick = () => {
+            if (music.paused) { music.play(); btn.textContent = '🎶'; }
+            else { music.pause(); btn.textContent = '🎵'; }
+        };
+
+        // Сохранение времени при клике на кнопку
+        document.querySelector('.next-btn').onclick = () => {
+            localStorage.setItem('musicTime', music.currentTime);
+            localStorage.setItem('wasPlaying', !music.paused);
+        };
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 12 + 8 + 'px';
+            petal.style.width = size; petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 4 + 4;
+            petal.style.animationDuration = duration + 's';
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), duration * 1000);
         }
-    };
-
-    // Сохраняем время перед уходом на страницу с фото
-    document.querySelector('.next-btn').onclick = () => {
-        localStorage.setItem('musicTime', music.currentTime);
-        localStorage.setItem('wasPlaying', !music.paused);
-    };
-
-    // --- ЛЕПЕСТКИ ---
-    function createPetal() {
-        const petal = document.createElement('div');
-        petal.className = 'petal';
-        const size = Math.random() * 12 + 8 + 'px';
-        petal.style.width = size; petal.style.height = size;
-        petal.style.left = Math.random() * 100 + 'vw';
-        const duration = Math.random() * 4 + 4;
-        petal.style.animationDuration = duration + 's';
-        const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
-        petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), duration * 1000);
-    }
-    setInterval(createPetal, 150);
-</script>
+        setInterval(createPetal, 150);
+    </script>
 </body>
 </html>
-
