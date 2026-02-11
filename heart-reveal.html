@@ -69,17 +69,20 @@
         }
 
         #love-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 10px #ff66a3;
-            opacity: 0;
-            transition: opacity 2s ease;
-            white-space: nowrap;
+    position: absolute;
+    top: 50%;         /* Центрирование по вертикали */
+    left: 50%;        /* Центрирование по горизонтали */
+    transform: translate(-50%, -50%); /* Точное выравнивание центра текста в центр контейнера */
+    font-size: 1.1rem; /* Размер стал чуть меньше (был 1.4 или 1.5) */
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px #ff66a3;
+    opacity: 0;
+    transition: opacity 2s ease;
+    white-space: nowrap;
+    z-index: 5;        /* Чтобы текст был поверх точек */
+    pointer-events: none;
+}
         }
 
         .back-link {
@@ -150,3 +153,4 @@
     </script>
 </body>
 </html>
+
