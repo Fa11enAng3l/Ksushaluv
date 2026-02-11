@@ -68,33 +68,35 @@
             will-change: transform, opacity;
         }
 
-        #love-text {
+      #love-text {
     position: absolute;
-    top: 50%;         /* Центрирование по вертикали */
-    left: 50%;        /* Центрирование по горизонтали */
-    transform: translate(-50%, -50%); /* Точное выравнивание центра текста в центр контейнера */
-    font-size: 1.1rem; /* Размер стал чуть меньше (был 1.4 или 1.5) */
+    top: 45%;         /* Было 50%, уменьшаем число, чтобы поднять текст */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1rem;
     font-weight: bold;
     color: #fff;
     text-shadow: 0 0 10px #ff66a3;
     opacity: 0;
     transition: opacity 2s ease;
     white-space: nowrap;
-    z-index: 5;        /* Чтобы текст был поверх точек */
-    pointer-events: none;
+    z-index: 10;
+}
 }
         }
 
         .back-link {
-            color: #00ff00;
-            text-decoration: none;
-            border: 1px solid #00ff00;
-            padding: 10px 20px;
-            border-radius: 25px;
-            margin-top: 40px;
-            display: inline-block;
-            font-size: 0.9rem;
-        }
+    display: inline-block; /* Делаем её блочной, чтобы отступы работали */
+    margin-top: 50px;      /* Увеличиваем отступ от сердца */
+    color: #00ff00;
+    text-decoration: none;
+    border: 1px solid #00ff00;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    position: relative;    /* Гарантирует, что она будет в потоке документа */
+    z-index: 20;           /* Чтобы она всегда была кликабельной */
+}
     </style>
 </head>
 <body>
@@ -153,4 +155,5 @@
     </script>
 </body>
 </html>
+
 
