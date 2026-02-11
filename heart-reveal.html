@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Волшебное сердечко</title>
+    <style>
+        body {
+            background-color: #120021; /* Темно-фиолетовый фон */
+            color: #00ff00;           /* Зеленый текст */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden; /* Чтобы точки не выходили за экран */
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 40px;
+        }
+
+        .reveal-btn {
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #e60073, #ff66a3); /* Яркая кнопка */
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 0, 102, 0.8);
+            transition: all 0.3s ease;
+            margin-bottom: 50px;
+        }
+
+        .reveal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(255, 0, 102, 1);
+        }
+
+        /* Стиль для точек сердечка */
+        .dot {
+            position: absolute;
+            background-color: #ff66a3; /* Цвет точек */
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s ease-out; /* Плавное появление */
+            pointer-events: none; /* Чтобы точки не мешали кликам */
+        }
+
+        .dot.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .back-link {
+            color: #00ff00;
+            text-decoration: none;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-top: 50px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            background: #00ff00;
+            color: #120021;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Тайное послание для тебя ✨</h1>
+        <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
+
+        <div id="heart-container" style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
+            </div>
+
+        <a href="photos.html" class="back-link">← Назад</a>
+    </div>
+
+    <script>
+        function revealHeart() {
+            const container = document.getElementById('heart-container');
+            container.innerHTML = ''; // Очищаем контейнер перед новым построением
+
+            const heartPoints = [
+                // Координаты для рисования сердечка (можно подстроить размер и форму)
+                { x: 150, y: 50 }, { x: 165, y: 35 }, { x: 185, y: 28 }, { x: 205, y: 35 }, { x: 220, y: 50 },
+                { x: 235, y: 70 }, { x: 245, y: 95 }, { x: 250, y: 125 }, { x: 245, y: 155 }, { x: 235, y: 180 },
+                { x: 220, y: 200 }, { x: 205, y: 220 }, { x: 185, y: 235 }, { x: 165, y: 245 }, { x: 150, y: 250 },
+                { x: 135, y: 245 }, { x: 115, y: 235 }, { x: 95, y: 220 }, { x: 80, y: 200 }, { x: 65, y: 180 },
+                { x: 55, y: 155 }, { x: 50, y: 125 }, { x: 55, y: 95 }, { x: 65, y: 70 }, { x: 80, y: 50 },
+                { x: 95, y: 35 }, { x: 115, y: 28 }, { x: 135, y: 35 }, { x: 150, y: 50 }
+            ];
+
+            // Добавляем дополнительные точки для заполнения, чтобы сердечко было более плотным
+            for (let i = 0; i < heartPoints.length; i += 2) {
+                heartPoints.push({ x: heartPoints[i].x + 5, y: heartPoints[i].y + 10 });
+                heartPoints.push({ x: heartPoints[i].x - 5, y: heartPoints[i].y + 10 });
+            }
+
+            heartPoints.forEach((point, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                const dotSize = Math.random() * 5 + 3; // Случайный размер точек от 3 до 8px
+                dot.style.width = `${dotSize}px`;
+                dot.style.height = `${dotSize}px`;
+                dot.style.left = `${point.x}px`;
+                dot.style.top = `${point.y}px`;
+                container.appendChild(dot);
+
+                setTimeout(() => {
+                    dot.classList.add('show');
+                }, index * 20); // Задержка для каждого шарика
+            });
+
+            // Отключаем кнопку после нажатия
+            document.querySelector('.reveal-btn').disabled = true;
+            document.querySelector('.reveal-btn').textContent = "❤";
+            document.querySelector('.reveal-btn').style.boxShadow = 'none';
+        }
+    </script>
+</body>
+</html>
