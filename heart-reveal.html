@@ -16,7 +16,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            overflow-x: hidden; /* Чтобы лепестки не создавали прокрутку */
+            overflow-x: hidden;
         }
 
         .container {
@@ -101,13 +101,7 @@
             z-index: 10;
         }
 
-        .back-link:hover {
-            background-color: rgba(0, 255, 0, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
-            transform: scale(1.05);
-        }
-
-        /* --- СТИЛИ ЛЕПЕСТКОВ --- */
+        /* Стиль для лепестков */
         .petal {
             position: fixed;
             top: -10%;
@@ -120,19 +114,18 @@
         }
 
         @keyframes fall {
-            0% { 
-                transform: translateY(0) rotate(0deg) translateX(0); 
-                opacity: 0; 
-            }
+            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
             10% { opacity: 0.8; }
-            100% { 
-                transform: translateY(110vh) rotate(720deg) translateX(50px); 
-                opacity: 0; 
-            }
+            100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; }
         }
     </style>
 </head>
 <body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container">
         <h1>Тайное послание для тебя✨</h1>
         <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
@@ -146,14 +139,17 @@
     </div>
 
     <script>
-        // --- ЛОГИКА СЕРДЦА ---
         function revealHeart() {
+            // Запуск музыки
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("Музыка не смогла запуститься:", e));
+
             const container = document.getElementById('heart-container');
             const loveText = document.getElementById('love-text');
             const btn = document.querySelector('.reveal-btn');
             
             btn.disabled = true;
-            btn.textContent = "Смотри...❤️";
+            btn.textContent = "Слушай...❤️";
 
             const points = [];
             for (let t = 0; t <= Math.PI * 2; t += 0.2) {
@@ -185,7 +181,7 @@
             }, points.length * 50 + 500);
         }
 
-        // --- ЛОГИКА ЛЕПЕСТКОВ ---
+        // --- ЛЕПЕСТКИ ---
         function createPetal() {
             const petal = document.createElement('div');
             petal.className = 'petal';
@@ -201,7 +197,7 @@
             document.body.appendChild(petal);
             setTimeout(() => { petal.remove(); }, duration * 1000);
         }
-        setInterval(createPetal, 150); // Тот же густой листопад
+        setInterval(createPetal, 150);
     </script>
 </body>
 </html>
