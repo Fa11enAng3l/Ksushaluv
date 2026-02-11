@@ -85,44 +85,43 @@
 }
         }
 
-       .back-link {
-    display: inline-block !important; /* Принудительно делаем блоком */
-    margin: 50px auto 20px auto !important; /* Отступы: 50px сверху, авто по бокам */
-    padding: 12px 25px !important; /* Внутренние отступы, чтобы кнопка была кнопкой */
-    color: #00ff00 !important;
-    text-decoration: none !important;
-    border: 2px solid #00ff00 !important; /* Делаем рамку чуть толще */
-    border-radius: 30px !important;
-    font-size: 1rem !important;
-    font-weight: bold !important;
+     .back-link {
+    display: inline-block;
+    margin-top: 50px;
+    padding: 12px 30px;
+    background-color: transparent;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 0 15px #00ff00; /* Неоновое свечение */
     transition: all 0.3s ease;
-    background: transparent;
-    cursor: pointer;
-    z-index: 999; /* Чтобы точно была поверх всего */
     position: relative;
-    min-width: 150px; /* Чтобы не сжималась */
+    z-index: 10;
 }
 
 .back-link:hover {
-    background: #00ff00 !important;
-    color: #120021 !important;
-    box-shadow: 0 0 15px #00ff00;
+    background-color: #00ff00;
+    color: #120021;
+    box-shadow: 0 0 30px #00ff00;
+    transform: scale(1.05);
 }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1>Тайное послание✨</h1>
+<div class="container">
+        <h1>Тайное послание для тебя✨</h1>
         <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
 
-        <div id="heart-container">
-            <div id="love-text">Я ТЕБЯ ЛЮБЛЮ❤️</div>
+        <div id="heart-container" style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
+             <div id="love-text">Я ТЕБЯ ЛЮБЛЮ❤️</div>
         </div>
 
+        <br>
         <a href="photos.html" class="back-link">← Назад к любимой тебе!</a>
     </div>
-
     <script>
         function revealHeart() {
             const container = document.getElementById('heart-container');
@@ -130,7 +129,7 @@
             const btn = document.querySelector('.reveal-btn');
             
             btn.disabled = true;
-            btn.textContent = "Смотри... ❤️";
+            btn.textContent = "Смотри...❤️";
 
             // Математическая формула сердца (более стабильная)
             const points = [];
@@ -160,12 +159,13 @@
             // Показываем текст в конце
             setTimeout(() => {
                 loveText.style.opacity = '1';
-                btn.textContent = "Люблю тебя! 💚";
+                btn.textContent = "Люблю тебя!💚";
             }, points.length * 50 + 500);
         }
     </script>
 </body>
 </html>
+
 
 
 
