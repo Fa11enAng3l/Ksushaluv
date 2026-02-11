@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Валентинка для моей любимой Ксю</title>
+    <title>Валентинка для моей любимой Ксю💚</title>
     <style>
         body {
             background-color: #120021; /* Глубокий темно-фиолетовый */
@@ -16,12 +16,15 @@
             padding: 20px;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden; /* Чтобы лепестки не создавали прокрутку */
         }
 
         .container {
             width: 100%;
             max-width: 600px;
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         h1 {
@@ -70,17 +73,43 @@
             background-color: #00ff00;
             color: #120021;
             box-shadow: 0 0 30px #00ff00;
+            transform: scale(1.05);
         }
 
         .heart {
             font-size: 4rem;
             animation: pulse 1.5s infinite;
+            margin-top: 10px;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
+        }
+
+        /* --- СТИЛИ ЛЕПЕСТКОВ --- */
+        .petal {
+            position: fixed;
+            top: -10%;
+            background-color: #ff66a3;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { 
+                transform: translateY(0) rotate(0deg) translateX(0); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.8; }
+            100% { 
+                transform: translateY(110vh) rotate(720deg) translateX(50px); 
+                opacity: 0; 
+            }
         }
     </style>
 </head>
@@ -93,17 +122,48 @@
         </div>
 
         <div class="love-letter">
-            <p>Я тебя очень сильно люблю, люблю твой голос, люблю твои глаза, люблю твои волосы,
+            <p>Я тебя очень сильно люблю, люблю твой голос, люблю твои глаза, люблю твои волосы, 
                 Я ЛЮБЛЮ ВСЮ ТЕБЯ. Я очень надеюсь, что встречусь с тобой этим летом❤️</p>
-            <p>Я очень рад что ты находишь время на то чтобы посидеть со мной в дискорде.
+            <p>Я очень рад что ты находишь время на то чтобы посидеть со мной в дискорде. 
                  И разбираться в чем-то новом, что для тебя совершенно незнакомо❤️</p>
             <div class="heart">❤</div>
         </div>
 
         <a href="photos.html" class="next-btn">Наши моменты →</a>
     </div>
+
+    <script>
+        // --- ПАДАЮЩИЕ ЛЕПЕСТКИ ---
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            
+            // Размеры
+            const size = Math.random() * 12 + 8 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            
+            petal.style.left = Math.random() * 100 + 'vw';
+            
+            // Скорость падения
+            const duration = Math.random() * 4 + 4;
+            petal.style.animationDuration = duration + 's';
+            
+            // Цвета
+            const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
+            petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+            document.body.appendChild(petal);
+            
+            setTimeout(() => { 
+                petal.remove(); 
+            }, duration * 1000);
+        }
+
+        // Частота появления (150 мс - густой листопад)
+        setInterval(createPetal, 150);
+    </script>
 </body>
 </html>
-
-
-
