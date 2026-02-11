@@ -16,13 +16,15 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Чтобы лепестки не создавали прокрутку */
         }
 
         .container {
             text-align: center;
             max-width: 400px;
             width: 100%;
+            position: relative;
+            z-index: 10;
         }
 
         h1 {
@@ -83,16 +85,15 @@
             z-index: 10;
         }
 
-        /* ИСПРАВЛЕННЫЙ СТИЛЬ КНОПКИ (КАК НА СКРИНШОТЕ) */
         .back-link {
             display: inline-block;
             margin-top: 50px;
             padding: 12px 35px;
             background-color: transparent;
-            color: #00ff00 !important; /* Принудительно зеленый цвет текста */
-            border: 2px solid #00ff00 !important; /* Принудительно зеленая рамка */
-            border-radius: 50px; /* Форма капсулы */
-            text-decoration: none !important; /* Убираем подчеркивание */
+            color: #00ff00 !important;
+            border: 2px solid #00ff00 !important;
+            border-radius: 50px;
+            text-decoration: none !important;
             font-size: 1.1rem;
             font-weight: bold;
             transition: all 0.3s ease;
@@ -104,6 +105,30 @@
             background-color: rgba(0, 255, 0, 0.1);
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
             transform: scale(1.05);
+        }
+
+        /* --- СТИЛИ ЛЕПЕСТКОВ --- */
+        .petal {
+            position: fixed;
+            top: -10%;
+            background-color: #ff66a3;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { 
+                transform: translateY(0) rotate(0deg) translateX(0); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.8; }
+            100% { 
+                transform: translateY(110vh) rotate(720deg) translateX(50px); 
+                opacity: 0; 
+            }
         }
     </style>
 </head>
@@ -121,6 +146,7 @@
     </div>
 
     <script>
+        // --- ЛОГИКА СЕРДЦА ---
         function revealHeart() {
             const container = document.getElementById('heart-container');
             const loveText = document.getElementById('love-text');
@@ -158,6 +184,24 @@
                 btn.textContent = "Люблю тебя!💚";
             }, points.length * 50 + 500);
         }
+
+        // --- ЛОГИКА ЛЕПЕСТКОВ ---
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 12 + 8 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 4 + 4;
+            petal.style.animationDuration = duration + 's';
+            const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
+            petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(petal);
+            setTimeout(() => { petal.remove(); }, duration * 1000);
+        }
+        setInterval(createPetal, 150); // Тот же густой листопад
     </script>
 </body>
 </html>
