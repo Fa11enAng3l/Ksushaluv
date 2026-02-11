@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши моменты</title>
+    <style>
+        body {
+            background-color: #120021;
+            color: #00ff00;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 30px;
+        }
+
+        .photo-card {
+            background: rgba(0, 40, 0, 0.3);
+            border: 1px solid #00ff00;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.02);
+        }
+
+        .photo-card img {
+            width: 100%;
+            border-radius: 15px;
+            border: 1px solid #005500;
+        }
+
+        .photo-card p {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #b3ffb3; /* Чуть более мягкий зеленый для текста подписей */
+        }
+
+        .back-link {
+            color: #00ff00;
+            text-decoration: none;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 30px 0 50px 0;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            background: #00ff00;
+            color: #120021;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Наши моменты 📸</h1>
+
+        <div class="photo-card">
+            <img src="pic/dress 1.jpg" alt="Фото 1">
+            <p>Мне очень нравится твоя фигура...</p>
+        </div>
+
+        <div class="photo-card">
+            <img src="pic/dress 2.jpg" alt="Фото 2">
+            <p>Это моя самая любимая❤️</p>
+        </div>
+
+        <div class="photo-card">
+            <img src="pic/dress 3.jpg" alt="Фото 3">
+            <p>Здесь ты светишься как звезда✨</p>
+        </div>
+
+        <div class="photo-card">
+            <img src="pic/dress 4.jpg" alt="Фото 4">
+            <p>Тут ты такая задумчивая💚</p>
+        </div>
+
+        <div class="photo-card">
+            <img src="pic/dress 5.jpg" alt="Фото 5">
+            <p>Ну шикарная жинка💍</p>
+        </div>
+
+        <a href="index.html" class="back-link">← На главную</a>
+    </div>
+</body>
+</html>
