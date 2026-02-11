@@ -70,7 +70,7 @@
 
       #love-text {
     position: absolute;
-    top: 45%;         /* Было 50%, уменьшаем число, чтобы поднять текст */
+    top: 40%;         /* Было 50%, уменьшаем число, чтобы поднять текст */
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 1.1rem;
@@ -85,31 +85,42 @@
 }
         }
 
-        .back-link {
-    display: inline-block; /* Делаем её блочной, чтобы отступы работали */
-    margin-top: 50px;      /* Увеличиваем отступ от сердца */
-    color: #00ff00;
-    text-decoration: none;
-    border: 1px solid #00ff00;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    position: relative;    /* Гарантирует, что она будет в потоке документа */
-    z-index: 20;           /* Чтобы она всегда была кликабельной */
+       .back-link {
+    display: inline-block !important; /* Принудительно делаем блоком */
+    margin: 50px auto 20px auto !important; /* Отступы: 50px сверху, авто по бокам */
+    padding: 12px 25px !important; /* Внутренние отступы, чтобы кнопка была кнопкой */
+    color: #00ff00 !important;
+    text-decoration: none !important;
+    border: 2px solid #00ff00 !important; /* Делаем рамку чуть толще */
+    border-radius: 30px !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease;
+    background: transparent;
+    cursor: pointer;
+    z-index: 999; /* Чтобы точно была поверх всего */
+    position: relative;
+    min-width: 150px; /* Чтобы не сжималась */
+}
+
+.back-link:hover {
+    background: #00ff00 !important;
+    color: #120021 !important;
+    box-shadow: 0 0 15px #00ff00;
 }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Тайное послание ✨</h1>
+        <h1>Тайное послание✨</h1>
         <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
 
         <div id="heart-container">
             <div id="love-text">Я ТЕБЯ ЛЮБЛЮ❤️</div>
         </div>
 
-        <a href="photos.html" class="back-link">← Назад к фото</a>
+        <a href="photos.html" class="back-link">← Назад к любимой тебе!</a>
     </div>
 
     <script>
@@ -155,6 +166,7 @@
     </script>
 </body>
 </html>
+
 
 
 
