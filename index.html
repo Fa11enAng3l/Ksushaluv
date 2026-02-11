@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Валентинка для моей любимой Ксю</title>
     <style>
-        /* Основные стили фона и текста */
         body {
             background-color: #120021; /* Глубокий темно-фиолетовый */
             color: #00ff00;           /* Ярко-зеленый текст */
@@ -31,15 +30,6 @@
             margin: 20px 0;
         }
 
-        /* Адаптивная галерея */
-        .photo-gallery {
-            display: flex;
-            flex-direction: column; /* На телефоне друг под другом */
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
         .photo-gallery img {
             width: 90%;
             max-width: 400px;
@@ -47,22 +37,43 @@
             border: 2px solid #00ff00;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            margin-bottom: 30px;
         }
 
-        /* Блок с текстом */
         .love-letter {
             font-size: 1.2rem;
-            background: rgba(0, 40, 0, 0.7);
+            background: rgba(0, 40, 0, 0.4);
             padding: 25px;
             border-radius: 20px;
             border: 1px solid #005500;
             box-shadow: inset 0 0 15px rgba(0, 255, 0, 0.1);
-            margin-bottom: 40px;
+        }
+
+        /* Стиль кнопки перехода */
+        .next-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background-color: transparent;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 0 15px #00ff00;
+            transition: all 0.3s ease;
+            margin-bottom: 50px;
+        }
+
+        .next-btn:hover {
+            background-color: #00ff00;
+            color: #120021;
+            box-shadow: 0 0 30px #00ff00;
         }
 
         .heart {
             font-size: 4rem;
-            color: #00ff00;
             animation: pulse 1.5s infinite;
         }
 
@@ -71,44 +82,23 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
-
-        /* Настройка для ПК (если экран шире 768px) */
-        @media (min-width: 768px) {
-            .photo-gallery {
-                flex-direction: row; /* На ПК в ряд */
-                justify-content: center;
-            }
-            h1 { font-size: 3.5rem; }
-            .love-letter { font-size: 1.5rem; }
-        }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1>Валентинка для моей любимой Ксю💚</h1>
+        <h1>Валентинка для моей любимой Ксю 💚</h1>
 
         <div class="photo-gallery">
             <img src="pic/heart2.jpg" alt="Моя любовь">
         </div>
 
         <div class="love-letter">
-            <p>
-               Я тебя очень сильно люблю, люблю твой голос,
-               люблю твои глаза, люблю твои волосы, Я ЛЮБЛЮ ВСЮ ТЕБЯ.
-               Я очень надеюсь что встречусь с тобой этим летом💚
-            </p>
-            <p>
-             Я очень рад что ты находишь время на то чтобы посидеть со мной в дискорде,
-             И разбираться в чем-то новом что для тебя в первой!❤️
-            </p>
-            
+            <p>Я тебя очень сильно люблю, люблю твой голос, люблю твои глаза, люблю твои волосы, Я ЛЮБЛЮ ВСЮ ТЕБЯ. Я очень надеюсь что встречусь с тобой этим летом 💚</p>
+            <p>Я очень рад что ты находишь время на то чтобы посидеть со мной в дискорде, и разбираться в чем-то новом что для тебя в первой! ❤️</p>
             <div class="heart">❤</div>
         </div>
-    </div>
 
+        <a href="photos.html" class="next-btn">Наши моменты →</a>
+    </div>
 </body>
 </html>
-
-
-
