@@ -120,20 +120,21 @@
             100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; }
         }
 
+        /* Кнопка теперь зафиксирована поверх всего */
         .music-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             background: linear-gradient(45deg, #e60073, #ff66a3);
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 26px;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 0, 102, 0.5);
-            z-index: 10000;
+            box-shadow: 0 0 20px rgba(255, 0, 102, 0.6);
+            z-index: 10001; /* Поверх лепестков */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -185,7 +186,7 @@
             <p>Ну шикарная жинка💍</p>
         </div>
 
-        <a href="index.html" class="back-link">Обратно к твоим потрясающим фоточкам❤️</a>
+        <a href="index.html" class="back-link">Обратно к твоим потрясающим фоточкам!❤️</a>
         <br>
         <a href="heart-reveal.html" class="next-page-btn">
              ✨ Сюрприз! ✨
@@ -193,14 +194,31 @@
     </div> 
 
     <script>
-        // --- ЛОГИКА МУЗЫКИ ---
         const music = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicControl');
         const musicIcon = document.getElementById('musicIcon');
 
+        // УРОВЕНЬ ГРОМКОСТИ (0.3 = 30%)
+        music.volume = 0.5;
+
+        // Восстановление позиции и состояния
+        window.addEventListener('load', () => {
+            const savedTime = localStorage.getItem('musicTime');
+            const wasPlaying = localStorage.getItem('wasPlaying') === 'true';
+
+            if (savedTime) { music.currentTime = parseFloat(savedTime); }
+            
+            if (wasPlaying) {
+                music.play().then(() => {
+                    musicIcon.textContent = '🎶';
+                    musicBtn.classList.add('playing');
+                }).catch(() => console.log("Нужен клик для возобновления"));
+            }
+        });
+
         musicBtn.addEventListener('click', () => {
             if (music.paused) {
-                music.play().catch(e => console.log("Нужно взаимодействие пользователя"));
+                music.play();
                 musicIcon.textContent = '🎶';
                 musicBtn.classList.add('playing');
             } else {
@@ -208,6 +226,14 @@
                 musicIcon.textContent = '🎵';
                 musicBtn.classList.remove('playing');
             }
+        });
+
+        // Сохранение при клике на ЛЮБУЮ ссылку
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                localStorage.setItem('musicTime', music.currentTime);
+                localStorage.setItem('wasPlaying', !music.paused);
+            });
         });
 
         // --- ПАДАЮЩИЕ ЛЕПЕСТКИ ---
@@ -218,33 +244,26 @@
             petal.style.width = size;
             petal.style.height = size;
             petal.style.left = Math.random() * 100 + 'vw';
-            
-            // Добавляем случайный начальный поворот через JS
             petal.style.transform = `rotate(${Math.random() * 360}deg)`;
-            
             const duration = Math.random() * 5 + 4;
             petal.style.animationDuration = duration + 's';
             const colors = ['#ff66a3', '#ff4d94', '#ff80b3', '#f78fb3', '#ff3366'];
             petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            
             document.body.appendChild(petal);
             setTimeout(() => { petal.remove(); }, duration * 1000);
         }
         setInterval(createPetal, 200);
 
         // --- ПЛАВНОЕ ПОЯВЛЕНИЕ КАРТОЧЕК ---
-        const observerOptions = { threshold: 0.1 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.photo-card').forEach(card => {
-            observer.observe(card);
-        });
+        document.querySelectorAll('.photo-card').forEach(card => observer.observe(card));
     </script>
 </body>
 </html>
