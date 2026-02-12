@@ -16,21 +16,22 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .container {
             text-align: center;
-            max-width: 400px;
             width: 100%;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             z-index: 10;
         }
 
         h1 {
             font-size: 2rem;
             text-shadow: 0 0 10px #00ff00;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .reveal-btn {
@@ -44,13 +45,17 @@
             box-shadow: 0 0 20px rgba(255, 0, 102, 0.6);
             transition: 0.3s;
             margin-bottom: 20px;
+            z-index: 20;
         }
 
         #heart-container {
             position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 20px auto;
+            width: 500px; /* Твоя настройка ширины */
+            height: 450px; /* Твоя настройка высоты */
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .dot {
@@ -60,18 +65,24 @@
             opacity: 0;
             transform: scale(0);
             transition: 0.6s;
+            width: 6px; 
+            height: 6px;
         }
 
         #love-text {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%; 
+            left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.2rem;
+            width: 80%;
+            font-size: 1.4rem;
             font-weight: bold;
             color: #fff;
             text-shadow: 0 0 10px #ff66a3;
             opacity: 0;
             transition: opacity 2s ease;
+            z-index: 15;
+            text-align: center;
         }
 
         .back-link {
@@ -93,6 +104,7 @@
             border-radius: 150% 0 150% 0;
             pointer-events: none;
             animation: fall linear forwards;
+            z-index: 1;
         }
 
         @keyframes fall {
@@ -112,36 +124,41 @@
         <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
 
         <div id="heart-container">
-             <div id="love-text">Я ТЕБЯ ЛЮБЛЮ❤️
-             С 14 февраля ТЕБЯ ЛЮБИМАЯ!❤️</div>
+             <div id="love-text">Я ТЕБЯ ЛЮБЛЮ ❤️ С 14 февраля ТЕБЯ ЛЮБИМАЯ! ❤️</div>
         </div>
 
-        <a href="photos.html" class="back-link" id="finalBack">← Обратно к твоим потрясающим фоточкам!❤️</a>
+        <a href="photos.html" class="back-link" id="finalBack">← Обратно к твоим потрясающим фоточкам!</a>
     </div>
 
     <script>
         const music = document.getElementById('bgMusic');
         music.volume = 0.5;
 
-        // ВАЖНО: Мы НЕ загружаем сохраненное время, так как это новая песня
-        // Но нам нужно очистить статус "играет", чтобы песня запустилась по клику
-        
+        window.addEventListener('load', () => {
+            const savedTime = localStorage.getItem('musicTime');
+            const wasPlaying = localStorage.getItem('wasPlaying') === 'true';
+            if (savedTime && !document.querySelector('source').src.includes('music2.mp3')) {
+                music.currentTime = parseFloat(savedTime);
+            }
+        });
+
         function revealHeart() {
-            // Запускаем НОВУЮ музыку при клике на кнопку
             music.play().catch(() => {});
-            
             const container = document.getElementById('heart-container');
             const loveText = document.getElementById('love-text');
             const btn = document.querySelector('.reveal-btn');
             
             btn.disabled = true;
-            btn.textContent = "Люблю тебя!💚";
+            btn.textContent = "Люблю тебя! 💚";
 
             const points = [];
-            for (let t = 0; t <= Math.PI * 2; t += 0.2) {
+            // Используем шаг 0.1 для плотности
+            for (let t = 0; t <= Math.PI * 2; t += 0.1) {
                 const x = 16 * Math.pow(Math.sin(t), 3);
                 const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-                points.push({ x: x * 8 + 150, y: y * 8 + 130 });
+                
+                // Используем множитель 13 для размера
+                points.push({ x: x * 13 + 250, y: y * 13 + 200 });
             }
 
             points.forEach((p, i) => {
@@ -149,21 +166,20 @@
                 dot.className = 'dot';
                 dot.style.left = p.x + 'px';
                 dot.style.top = p.y + 'px';
-                dot.style.width = '8px'; dot.style.height = '8px';
                 container.appendChild(dot);
+                
                 setTimeout(() => { 
                     dot.style.opacity = '1'; 
                     dot.style.transform = 'scale(1)'; 
-                }, i * 50);
+                }, i * 30); 
             });
-            setTimeout(() => { loveText.style.opacity = '1'; }, points.length * 50);
+            
+            setTimeout(() => { loveText.style.opacity = '1'; }, points.length * 30);
         }
 
-        // Если она вернется назад, мы сбросим флаг "играет", 
-        // чтобы на странице фото музыка включилась корректно
         document.getElementById('finalBack').onclick = () => {
             localStorage.setItem('wasPlaying', 'true');
-            localStorage.setItem('musicTime', '0'); // Чтобы первая песня началась сначала при возврате
+            localStorage.setItem('musicTime', '0');
         };
 
         function createPetal() {
@@ -181,4 +197,3 @@
     </script>
 </body>
 </html>
-
