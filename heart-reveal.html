@@ -15,13 +15,14 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
+            padding: 10px;
+            overflow-x: hidden; /* Чтобы не было горизонтальной прокрутки на телефоне */
         }
 
         .container {
             text-align: center;
             width: 100%;
+            max-width: 600px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,14 +30,14 @@
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 1.5rem; /* Уменьшили для мобильных */
             text-shadow: 0 0 10px #00ff00;
             margin-bottom: 20px;
         }
 
         .reveal-btn {
-            padding: 18px 35px;
-            font-size: 1.3rem;
+            padding: 15px 30px;
+            font-size: 1.1rem;
             background: linear-gradient(45deg, #e60073, #ff66a3);
             color: #fff;
             border: none;
@@ -50,9 +51,11 @@
 
         #heart-container {
             position: relative;
-            width: 500px; /* Твоя настройка ширины */
-            height: 450px; /* Твоя настройка высоты */
-            margin: 10px auto;
+            /* На телефоне берем почти всю ширину экрана, но не более 500px */
+            width: 90vw; 
+            max-width: 500px;
+            height: 400px;
+            margin: 0 auto;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -65,8 +68,8 @@
             opacity: 0;
             transform: scale(0);
             transition: 0.6s;
-            width: 6px; 
-            height: 6px;
+            width: 5px; 
+            height: 5px;
         }
 
         #love-text {
@@ -74,25 +77,27 @@
             top: 50%; 
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            font-size: 1.4rem;
+            width: 100%;
+            font-size: 1.2rem; /* Оптимально для телефона */
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 10px #ff66a3;
+            text-shadow: 0 0 15px #ff66a3;
             opacity: 0;
             transition: opacity 2s ease;
             z-index: 15;
             text-align: center;
+            line-height: 1.4;
         }
 
         .back-link {
             display: inline-block;
-            margin-top: 30px;
-            padding: 12px 30px;
+            margin-top: 20px;
+            padding: 10px 20px;
             color: #00ff00;
             border: 2px solid #00ff00;
             border-radius: 50px;
             text-decoration: none;
+            font-size: 0.9rem;
             font-weight: bold;
             transition: 0.3s;
         }
@@ -104,11 +109,12 @@
             border-radius: 150% 0 150% 0;
             pointer-events: none;
             animation: fall linear forwards;
-            z-index: 1;
+            z-index: 9999; /* Чтобы лепестки были видны над фоном */
         }
 
         @keyframes fall {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
             100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
     </style>
@@ -121,26 +127,21 @@
 
     <div class="container">
         <h1>Тайное послание для тебя✨</h1>
-        <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
+        <button class="reveal-btn" onclick="revealHeart()">😍Нажми на меня!😍</button>
 
         <div id="heart-container">
-             <div id="love-text">Я ТЕБЯ ЛЮБЛЮ❤️С 14 февраля, ТЕБЯ ЛЮБИМАЯ!❤️</div>
+             <div id="love-text">
+                Я ТЕБЯ ЛЮБЛЮ ❤️<br>
+                С 14 февраля,<br>ТЕБЯ ЛЮБИМАЯ! ❤️
+             </div>
         </div>
 
-        <a href="photos.html" class="back-link" id="finalBack">← Обратно к твоим потрясающим фоточкам!</a>
+        <a href="photos.html" class="back-link" id="finalBack">← Назад к фоточкам</a>
     </div>
 
     <script>
         const music = document.getElementById('bgMusic');
-        music.volume = 0.3;
-
-        window.addEventListener('load', () => {
-            const savedTime = localStorage.getItem('musicTime');
-            const wasPlaying = localStorage.getItem('wasPlaying') === 'true';
-            if (savedTime && !document.querySelector('source').src.includes('music2.mp3')) {
-                music.currentTime = parseFloat(savedTime);
-            }
-        });
+        music.volume = 0.2;
 
         function revealHeart() {
             music.play().catch(() => {});
@@ -152,13 +153,18 @@
             btn.textContent = "Люблю тебя! 💚";
 
             const points = [];
-            // Используем шаг 0.1 для плотности
+            // Определяем масштаб сердца в зависимости от ширины экрана
+            const scale = window.innerWidth < 500 ? window.innerWidth / 40 : 12;
+
             for (let t = 0; t <= Math.PI * 2; t += 0.1) {
                 const x = 16 * Math.pow(Math.sin(t), 3);
                 const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
                 
-                // Используем множитель 13 для размера
-                points.push({ x: x * 13 + 250, y: y * 13 + 200 });
+                // Центрируем относительно контейнера (ширина/2, высота/2)
+                const centerX = container.offsetWidth / 2;
+                const centerY = container.offsetHeight / 2 - 20;
+
+                points.push({ x: x * scale + centerX, y: y * scale + centerY });
             }
 
             points.forEach((p, i) => {
@@ -177,11 +183,6 @@
             setTimeout(() => { loveText.style.opacity = '1'; }, points.length * 30);
         }
 
-        document.getElementById('finalBack').onclick = () => {
-            localStorage.setItem('wasPlaying', 'true');
-            localStorage.setItem('musicTime', '0');
-        };
-
         function createPetal() {
             const petal = document.createElement('div');
             petal.className = 'petal';
@@ -197,5 +198,3 @@
     </script>
 </body>
 </html>
-
-
