@@ -120,7 +120,6 @@
             100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; }
         }
 
-        /* Кнопка теперь зафиксирована поверх всего */
         .music-btn {
             position: fixed;
             bottom: 20px;
@@ -134,7 +133,7 @@
             font-size: 26px;
             cursor: pointer;
             box-shadow: 0 0 20px rgba(255, 0, 102, 0.6);
-            z-index: 10001; /* Поверх лепестков */
+            z-index: 10001; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -198,10 +197,9 @@
         const musicBtn = document.getElementById('musicControl');
         const musicIcon = document.getElementById('musicIcon');
 
-        // УРОВЕНЬ ГРОМКОСТИ (0.3 = 30%)
+        // ГРОМКОСТЬ (убедись, что на всех страницах одинаково)
         music.volume = 0.5;
 
-        // Восстановление позиции и состояния
         window.addEventListener('load', () => {
             const savedTime = localStorage.getItem('musicTime');
             const wasPlaying = localStorage.getItem('wasPlaying') === 'true';
@@ -231,12 +229,16 @@
         // Сохранение при клике на ЛЮБУЮ ссылку
         document.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                localStorage.setItem('musicTime', music.currentTime);
-                localStorage.setItem('wasPlaying', !music.paused);
+                if (link.href.includes('heart-reveal.html')) {
+                    // При переходе к сюрпризу помечаем, что текущая музыка не должна играть сама
+                    localStorage.setItem('wasPlaying', 'false');
+                } else {
+                    localStorage.setItem('musicTime', music.currentTime);
+                    localStorage.setItem('wasPlaying', !music.paused);
+                }
             });
         });
 
-        // --- ПАДАЮЩИЕ ЛЕПЕСТКИ ---
         function createPetal() {
             const petal = document.createElement('div');
             petal.className = 'petal';
@@ -254,7 +256,6 @@
         }
         setInterval(createPetal, 200);
 
-        // --- ПЛАВНОЕ ПОЯВЛЕНИЕ КАРТОЧЕК ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
