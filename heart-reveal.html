@@ -2,41 +2,39 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Волшебное сердечко</title>
     <style>
+        * { box-sizing: border-box; } /* Чтобы паддинги не раздували элементы */
+
         body {
             background-color: #120021;
             color: #00ff00;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 10px;
-            overflow-x: hidden; /* Чтобы не было горизонтальной прокрутки на телефоне */
+            overflow-x: hidden;
         }
 
         .container {
             text-align: center;
             width: 100%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             z-index: 10;
+            padding-top: 20px;
         }
 
         h1 {
-            font-size: 1.5rem; /* Уменьшили для мобильных */
+            font-size: 1.4rem;
             text-shadow: 0 0 10px #00ff00;
-            margin-bottom: 20px;
+            margin: 0 0 20px 0;
         }
 
         .reveal-btn {
-            padding: 15px 30px;
+            padding: 15px 25px;
             font-size: 1.1rem;
             background: linear-gradient(45deg, #e60073, #ff66a3);
             color: #fff;
@@ -44,21 +42,18 @@
             border-radius: 40px;
             cursor: pointer;
             box-shadow: 0 0 20px rgba(255, 0, 102, 0.6);
-            transition: 0.3s;
             margin-bottom: 20px;
             z-index: 20;
+            position: relative;
         }
 
         #heart-container {
             position: relative;
-            /* На телефоне берем почти всю ширину экрана, но не более 500px */
-            width: 90vw; 
-            max-width: 500px;
-            height: 400px;
+            width: 100%; /* Занимает всю ширину экрана */
+            max-width: 400px; /* Но не больше 400px */
+            height: 350px; /* Фиксированная высота для мобильных */
             margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: block; /* Важно для расчетов координат */
         }
 
         .dot {
@@ -68,48 +63,47 @@
             opacity: 0;
             transform: scale(0);
             transition: 0.6s;
-            width: 5px; 
-            height: 5px;
+            width: 4px; 
+            height: 4px;
         }
 
         #love-text {
             position: absolute;
-            top: 50%; 
+            top: 45%; 
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100%;
-            font-size: 1.2rem; /* Оптимально для телефона */
+            width: 80%;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 15px #ff66a3;
+            text-shadow: 0 0 10px #ff66a3;
             opacity: 0;
             transition: opacity 2s ease;
             z-index: 15;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.3;
+            pointer-events: none; /* Чтобы текст не мешал кликам */
         }
 
         .back-link {
             display: inline-block;
-            margin-top: 20px;
+            margin: 20px 0;
             padding: 10px 20px;
             color: #00ff00;
-            border: 2px solid #00ff00;
+            border: 1px solid #00ff00;
             border-radius: 50px;
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: bold;
-            transition: 0.3s;
         }
 
         .petal {
             position: fixed;
-            top: -10%;
+            top: -50px;
             background-color: #ff66a3;
             border-radius: 150% 0 150% 0;
             pointer-events: none;
+            z-index: 9999;
             animation: fall linear forwards;
-            z-index: 9999; /* Чтобы лепестки были видны над фоном */
         }
 
         @keyframes fall {
@@ -126,13 +120,13 @@
     </audio>
 
     <div class="container">
-        <h1>Тайное послание для тебя✨</h1>
-        <button class="reveal-btn" onclick="revealHeart()">😍Нажми на меня!😍</button>
+        <h1>Тайное послание✨</h1>
+        <button class="reveal-btn" onclick="revealHeart()">Нажми на меня!</button>
 
         <div id="heart-container">
              <div id="love-text">
                 Я ТЕБЯ ЛЮБЛЮ ❤️<br>
-                С 14 февраля,<br>ТЕБЯ ЛЮБИМАЯ! ❤️
+                С 14 февраля,<br>ЛЮБИМАЯ Ксю! ❤️
              </div>
         </div>
 
@@ -141,7 +135,7 @@
 
     <script>
         const music = document.getElementById('bgMusic');
-        music.volume = 0.2;
+        music.volume = 0.5;
 
         function revealHeart() {
             music.play().catch(() => {});
@@ -149,22 +143,22 @@
             const loveText = document.getElementById('love-text');
             const btn = document.querySelector('.reveal-btn');
             
-            btn.disabled = true;
-            btn.textContent = "Люблю тебя! 💚";
+            btn.style.display = 'none'; // Скрываем кнопку, чтобы освободить место под сердце
 
             const points = [];
-            // Определяем масштаб сердца в зависимости от ширины экрана
-            const scale = window.innerWidth < 500 ? window.innerWidth / 40 : 12;
+            // Вычисляем масштаб исходя из ширины контейнера
+            const rect = container.getBoundingClientRect();
+            const scale = rect.width / 35; // Авто-подбор размера под экран телефона
 
             for (let t = 0; t <= Math.PI * 2; t += 0.1) {
                 const x = 16 * Math.pow(Math.sin(t), 3);
                 const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
                 
-                // Центрируем относительно контейнера (ширина/2, высота/2)
-                const centerX = container.offsetWidth / 2;
-                const centerY = container.offsetHeight / 2 - 20;
+                // Рисуем от центра контейнера
+                const posX = (rect.width / 2) + (x * scale);
+                const posY = (rect.height / 2) + (y * scale);
 
-                points.push({ x: x * scale + centerX, y: y * scale + centerY });
+                points.push({ x: posX, y: posY });
             }
 
             points.forEach((p, i) => {
@@ -183,13 +177,15 @@
             setTimeout(() => { loveText.style.opacity = '1'; }, points.length * 30);
         }
 
+        // Исправленная функция лепестков
         function createPetal() {
             const petal = document.createElement('div');
             petal.className = 'petal';
             const size = Math.random() * 10 + 10 + 'px';
-            petal.style.width = size; petal.style.height = size;
+            petal.style.width = size;
+            petal.style.height = size;
             petal.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 3 + 4;
+            const duration = Math.random() * 4 + 4;
             petal.style.animationDuration = duration + 's';
             document.body.appendChild(petal);
             setTimeout(() => petal.remove(), duration * 1000);
